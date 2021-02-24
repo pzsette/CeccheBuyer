@@ -72,7 +72,18 @@ if __name__ == '__main__':
 
                 # If the product is available, send a Telegram message and play an mp3 file.
                 if "Available" in stock:
-                    print("Buy")
-                    test = telegram_bot_sendtext(urls[i])
-                    call()
-                    not_available = False
+                    # It takes the price of the product from html page.
+                    price = soup.select('#priceblock_ourprice')[0].get_text().strip()
+
+                    # Conversion from string to float to be able to check.
+                    price = price.replace(" ", "")
+                    price = price.replace(".", "")
+                    price = price.replace("€", "")
+                    price = price.replace(",", ".")
+                    price = float(price)
+
+                    if price <= 900:
+                        print("Buy")
+                        test = telegram_bot_sendtext(urls[i])
+                        call()
+                        not_available = False
